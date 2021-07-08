@@ -32,11 +32,11 @@ class ProductPage(BasePage):
         # book_price = self.browser.find_element(*ProductPageLocators.BOOK_PRICE)
         # assert basket_price.text == book_price.text, "basket prise is {}, but book price is {}".format(basket_price.text, book_price.text)
 
-#     def go_to_login_page(self):
-#         login_link = self.browser.find_element(*MainPageLocators.LOGIN_LINK)
-#         login_link.click()
-#         # variant1
-#         # return LoginPage(browser=self.browser, url=self.browser.current_url)
-#
-# def should_be_login_link(self):
-#         assert self.is_element_present(*MainPageLocators.LOGIN_LINK), "Login link is not presented"
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message is presented, but should not be"
+
+    def should_disappear_message(self):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message should disappear, but it stays"
+
