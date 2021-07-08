@@ -1,6 +1,7 @@
 from .Pages.product_page import ProductPage
 import pytest
 from .Pages.login_page import LoginPage
+from .Pages.basket_page import BasketPage
 
 
 # @pytest.mark.parametrize('param_link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
@@ -22,6 +23,7 @@ from .Pages.login_page import LoginPage
 #     page.solve_quiz_and_get_code() #вычисляем выражение и записываем его в алерт
 #     page.should_be_thing_in_basket(page.return_book_name())
 #     page.should_be_same_price(page.return_book_price())
+
 @pytest.mark.xfail
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/the-shellcoders-handbook_209'
@@ -57,6 +59,16 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page.go_to_login_page()
     login_page = LoginPage(browser, browser.current_url)
     login_page.should_be_login_page()
+
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_open_basket()  # Переходит в корзину по кнопке в шапке сайта
+    basket_link = browser.current_url
+    basket_page = BasketPage(browser, basket_link)
+    basket_page.should_not_be_goods_in_basket() #Ожидаем, что в корзине нет товаро
+
 
 
 

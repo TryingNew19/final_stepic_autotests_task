@@ -1,6 +1,6 @@
 from .Pages.main_page import MainPage
 from .Pages.login_page import LoginPage
-from .Pages.product_page import ProductPage
+from .Pages.basket_page import BasketPage
 import time
 
 # def test_guest_can_go_to_login_page(browser):
@@ -44,10 +44,25 @@ def test_guest_should_see_login_form(browser):
     page = LoginPage(browser, link)
     page.open()  # открываем страницу
     page.should_be_login_form()
-
-
+#
+#
 def test_guest_should_see_register_form(browser):
     link = "http://selenium1py.pythonanywhere.com/ru/accounts/login/"
     page = LoginPage(browser, link)
     page.open()  # открываем страницу
     page.should_be_register_form()
+
+def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/"
+    page = MainPage(browser, link)
+    page.open() #Гость открывает главную страницу
+    page.should_open_basket() #Переходит в корзину по кнопке в шапке сайта
+    basket_link = browser.current_url
+    basket_page = BasketPage(browser, basket_link)
+    basket_page.should_not_be_goods_in_basket() #Ожидаем, что в корзине нет товаров
+
+
+
+
+
+

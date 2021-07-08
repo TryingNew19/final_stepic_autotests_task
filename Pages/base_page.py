@@ -4,6 +4,8 @@ import math
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from .locators import BasePageLocators
+from .locators import MainPageLocators
+import time
 
 class BasePage():
     def __init__(self, browser, url, timeout=10):
@@ -29,6 +31,15 @@ class BasePage():
             return True
 
         return False
+
+    def is_element_present(self, how, what, timeout=1):
+        try:
+            WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return False
+
+        return True
+
 
     def is_disappeared(self, how, what, timeout=4):
         try:
@@ -61,4 +72,9 @@ class BasePage():
 
     def should_be_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
+
+    def should_open_basket(self):
+        button_open_basket = self.browser.find_element(*MainPageLocators.BASKET_BUTTON)
+        button_open_basket.click()
+        assert "basket" in self.browser.current_url, "This is not basket page"
 
