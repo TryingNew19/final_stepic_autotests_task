@@ -6,6 +6,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from .locators import BasePageLocators
 from .locators import MainPageLocators
 import time
+from random import choice
+from string import ascii_letters
 
 class BasePage():
     def __init__(self, browser, url, timeout=10):
@@ -39,6 +41,11 @@ class BasePage():
             return False
 
         return True
+
+    def send_keys_if_element_present(self, how, what, keys_str, txt):
+        assert self.is_element_present(how, what), 'No {} field'.format(txt)
+        element = self.browser.find_element(how, what)
+        element.send_keys(keys_str)
 
 
     def is_disappeared(self, how, what, timeout=4):
@@ -83,4 +90,10 @@ class BasePage():
     def should_be_authorized_user(self):
         assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
                                                                      " probably unauthorised user"
+
+    def make_random_str(self, number):
+        return ''.join(choice(ascii_letters) for i in range(number))
+
+    def make_random_email(self):
+        return str(time.time()) + "@fakemail.org"
 
