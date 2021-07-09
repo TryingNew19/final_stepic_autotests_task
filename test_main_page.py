@@ -2,14 +2,6 @@ from .Pages.main_page import MainPage
 from .Pages.login_page import LoginPage
 from .Pages.basket_page import BasketPage
 import pytest
-import time
-
-# def test_guest_can_go_to_login_page(browser):
-#     link = "http://selenium1py.pythonanywhere.com/"
-#     # link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209?promo=midsummer"
-#     page = MainPage(browser, link)   # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес
-#     page.open()                      # открываем страницу
-#     page.go_to_login_page()          # выполняем метод страницы — переходим на страницу логина
 
 # запуск pytest -v --tb=line --language=en test_main_page.py
 def test_guest_should_see_login_link(browser):
@@ -31,6 +23,7 @@ def test_guest_should_go_to_login_page(browser):
 #     page.open()
 #     login_page = page.go_to_login_page()
 #     login_page.should_be_login_page()
+
 @pytest.mark.login_guest
 def test_guest_can_go_to_login_page(browser):
     link = "http://selenium1py.pythonanywhere.com"
@@ -64,6 +57,6 @@ def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
 
 
 
-
+#https://stepik.org/lesson/193188/step/4?unit=167629 урок про requirements
 
 
