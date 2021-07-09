@@ -50,6 +50,8 @@ class BasePage():
 
         return True
 
+
+
     def solve_quiz_and_get_code(self):
         alert = self.browser.switch_to.alert
         x = alert.text.split(" ")[2]
@@ -77,4 +79,8 @@ class BasePage():
         button_open_basket = self.browser.find_element(*MainPageLocators.BASKET_BUTTON)
         button_open_basket.click()
         assert "basket" in self.browser.current_url, "This is not basket page"
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"
 
