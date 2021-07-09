@@ -21,6 +21,7 @@ class LoginPage(BasePage):
         assert self.is_element_present(*LoginPageLocators.REGISTER_FORM), "Register form is not presented"
 
     def register_new_user(self, email, password):
+        #для 3 элементов делаем одно и то же, создала отдельную функцию, чтоб не дублировать когд 3 раза
         self.send_keys_if_element_present(*LoginPageLocators.REGISTER_EMAIL, email, "email")
         self.send_keys_if_element_present(*LoginPageLocators.REGISTER_PASSWORD1, password, "password1")
         self.send_keys_if_element_present(*LoginPageLocators.REGISTER_PASSWORD2, password, "password2")
