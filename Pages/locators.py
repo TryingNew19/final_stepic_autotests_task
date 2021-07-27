@@ -31,5 +31,8 @@ class BasePageLocators():
 class BasketPageLocators():
     BASKET_ITEMS = (By.CSS_SELECTOR,".basket-items")
     BASKET_EMPTY_TEXT = (By.CSS_SELECTOR, "#content_inner p")
+    QUANTITY_FIELD = (By.CSS_SELECTOR, '[name="form-0-quantity"]')
+    RENEW_BTN = (By.CSS_SELECTOR, '.input-group-btn > [type="submit"]')
+    SEE_BASKET_BTN = (By.CSS_SELECTOR, '[href="/ru/basket/"].btn-info')
 
 

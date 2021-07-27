@@ -53,6 +53,7 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.should_be_login_link()
 
 @pytest.mark.need_review
+@pytest.mark.debug
 def test_guest_can_go_to_login_page_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = ProductPage(browser, link)
@@ -73,7 +74,7 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
 
 class TestUserAddToBasketFromProductPage():
     @pytest.fixture(scope="function", autouse=True)
-    def setup(self, browser):
+    def setup(self, browser, request):
         link = "http://selenium1py.pythonanywhere.com/ru/accounts/login/"
         self.page = LoginPage(browser, link)
         self.page.open()
@@ -81,11 +82,22 @@ class TestUserAddToBasketFromProductPage():
         password = self.page.make_random_str(10)
         self.page.register_new_user(email, password)
 
-    def test_user_cant_see_success_message(self, browser):
-        link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/the-shellcoders-handbook_209'
-        page = ProductPage(browser, link)
-        page.open()  # открываем страницу
-        page.should_not_be_success_message()  # Проверяем, что нет сообщения об успехе
+        # для тренировки в teardown перейду в корзину и очищу корзину (удалю книгу)
+        def teardown():
+            page = ProductPage(browser, browser.current_url)
+            page.open()  # открываем страницу
+            page.should_open_basket() #открываем корзину
+            basket_page = BasketPage(browser, browser.current_url)
+            basket_page.delete_book() #удаляем книгу из корзины и проверяем, что она удалена
+
+        request.addfinalizer(teardown)
+
+
+    # def test_user_cant_see_success_message(self, browser):
+    #     link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/the-shellcoders-handbook_209'
+    #     page = ProductPage(browser, link)
+    #     page.open()  # открываем страницу
+    #     page.should_not_be_success_message()  # Проверяем, что нет сообщения об успехе
 
     @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
